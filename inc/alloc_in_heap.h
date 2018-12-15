@@ -2,6 +2,8 @@
 # define ALLOC_IN_HEAP_H
 
 #include <stdio.h>
+#include <unistd.h>
+#include <sys/mman.h>
 
 typedef enum            e_zones_heap
 {
