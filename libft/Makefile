@@ -111,7 +111,7 @@ clean :
 
 fclean : clean
 	@rm -f $(NAME)
-	@echo "$(RED)clean:$(RESET)\t$(NAME)"
+	@echo "$(RED)fclean:$(RESET)\t$(NAME)"
 
 re : fclean all
 
