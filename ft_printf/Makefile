@@ -5,11 +5,13 @@ CC = gcc
 
 LIBFT_DIR = ../libft
 LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_INC = $(LIBFT_DIR)/inc
 
 INC_DIR = inc
 SRC_DIR = src
 OBJ_DIR = obj
+
+LINK_FLAGS = $(LIBFT_FLAGS)
+HEADER_FLAGS = -I $(INC_DIR) -I $(LIBFT_DIR)/inc
 
 SRC =	$(addprefix $(SRC_DIR)/, conversions_c_wc.c \
 		conversions_signed_digit.c\
@@ -52,20 +54,22 @@ $(OBJ_DIR):
 	@echo "$(BLUE)create:$(RESET)\t$(OBJ_DIR)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC)
-	@$(CC) $(FLAGS)  -c $< -o $@ -I $(INC_DIR)
+	@$(CC) $(FLAGS) -c $< -o $@ $(HEADER_FLAGS)
 	@echo "$(GREEN)compil:$(RESET)\t$@"
 
 clean :
 	@rm -f $(OBJ)
-	@rm -rf $(OBJ_DIR)
-	@echo "$(RED)clean:$(RESET)\t$(OBJ)"
 	@make clean -C $(LIBFT_DIR)
+	@echo "$(RED)clean:$(RESET)\t$(OBJ)"
 
 fclean : clean
 	@rm -f $(NAME)
-	@echo "$(RED)fclean:$(RESET)\t$(NAME)"
+	@rm -rf $(OBJ_DIR)
 	@make fclean -C $(LIBFT_DIR)
+	@echo "$(RED)fclean:$(RESET)\t$(NAME)"
 
 re : fclean all
 
 .PHONY: clean fclean re
+
+#gcc main.c -L ../libft -I inc -I ../libft/inc ./libftprintf.a

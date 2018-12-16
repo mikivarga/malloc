@@ -106,11 +106,11 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC)
 
 clean :
 	@rm -f $(OBJ)
-	@rm -rf $(OBJ_DIR)
 	@echo "$(RED)clean:$(RESET)\t$(OBJ)"
 
 fclean : clean
 	@rm -f $(NAME)
+	@rm -rf $(OBJ_DIR)
 	@echo "$(RED)fclean:$(RESET)\t$(NAME)"
 
 re : fclean all
