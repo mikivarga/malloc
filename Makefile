@@ -8,6 +8,8 @@ LIB = libft_malloc_$(HOSTTYPE).so
 PATH_SRC = src
 PATH_OBJ = obj
 PATH_INC = inc
+PRINTF_DIR = ../ft_printf/
+LIBFT_DIR = ../libft/
 
 SRC = $(addprefix $(PATH_SRC)/, malloc.c)
 OBJ = $(SRC:$(PATH_SRC)/%.c=$(PATH_OBJ)/%.o)
@@ -15,6 +17,18 @@ INC = $(addprefix $(PATH_INC)/, alloc_in_heap.h)
 
 FLAGS = -Wall -Wextra -Werror
 CC = gcc
+
+PRINTF = $(PRINTF_DIR)libft.a
+PRINTF_INC = $(PRINTF_DIR)inc
+PRINTF_FLAGS = -ltf -L$(PRINTF_DIR)
+
+LIBFT = $(LIBFT_DIR)libft.a
+LIBFT_INC = $(LIBFT_DIR)inc
+LIBFT_FLAGS = -ltf -L$(LIBFT_DIR)
+
+LINK_FLAGS = $(LIBFT_FLAGS) $(PRINTF_FLAGS)
+HEADER_FLAGS = -I $(INC_DIR) -I $(LIBFT_INC) -I $(PRINTF_INC)
+
 
 RED = \033[01;31m
 GREEN = \033[01;32m
@@ -27,7 +41,7 @@ RESET = \033[00m]
 
 all: $(NAME)
 
-$(NAME): $(LIB)
+$(NAME): $() $(LIB)
 	ln -s $^ $@
 	@echo "$(PINK)link:$(RESET)\t$@"
 
@@ -39,17 +53,22 @@ $(PATH_OBJ)/%.o: $(PATH_SRC)/%.c $(INC)
 	mkdir -p $(PATH_OBJ)
 	$(CC) $(FLAGS) -c $< -o $@ -I $(PATH_INC)
 	@echo "$(YELLOW)compil:$(RESET)\t$@"
-	
+
+
+
+
 clear:
-	rm -rf $(OBJ)
-	rm -rf $(PATH_OBJ)
-	@echo "$(BLUE)clean:$(RESET)\t(OBJ)"
+	@rm -f $(OBJ)
+	@rm -rf $(PATH_OBJ)
+	@make clean -C $(PRINTF_DIR)
+	@echo "$(RED)clean:$(RESET)\t$(OBJ)"
 
 fclean:
-	rm -rf $(NAME)
-	@echo "$(BLUE)clean:$(RESET)\t(NAME)"
-	rm -rf $(LIB)
-	@echo "$(BLUE)clean:$(RESET)\t(LIB)"
+	@rm -f $(NAME)
+	@rm -rf $(LIB)
+	@make fclean -C $(PRINTF_DIR)
+	@echo "$(RED)clean:$(RESET)\t$(NAME)"
+	@echo "$(RED)clean:$(RESET)\t$(LIB)"
 
 re: fclean all
 
