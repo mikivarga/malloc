@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include "ft_printf.h"
 
 static char		*g_str;
@@ -88,7 +89,7 @@ static int		ft_prec_more_len(char *pref, char *str, size_t len, int toleft)
 		pstr = ft_strjoin(g_tmp, str);
 		free(g_tmp);
 		len = ft_strlen(pstr);
-		if (pref == '\0')
+		if (*pref == '\0')
 			ft_pr_left_right(pref, pstr, len, toleft);
 		else
 			ft_lr_pref(pref, pstr, len, toleft);
@@ -120,7 +121,7 @@ void			ft_pr_point(char *prefix, uintmax_t nbr, int base)
 		g_width = g_prec;
 	if (ft_prec_more_len(prefix, str, len, toleft))
 		return ;
-	if (prefix == '\0')
+	if (*prefix == '\0')
 		ft_pr_left_right(prefix, str, len, toleft);
 	else
 		ft_lr_pref(prefix, str, len, toleft);

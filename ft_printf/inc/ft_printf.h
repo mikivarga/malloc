@@ -13,14 +13,10 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include "libft.h"
-# include <stdarg.h>
+# include <stdio.h>
 # include <stdint.h>
 # include <wchar.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <stdio.h>
-# include <string.h>
+# include <stdarg.h>
 
 # define BYTE_ASCII 0x7F
 # define BYTE_UTF2 0x7FF

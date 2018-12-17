@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include "ft_printf.h"
 
 void			ft_pointer(unsigned char c, va_list ap)

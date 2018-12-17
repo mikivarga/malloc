@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include "ft_printf.h"
 
 static void		ft_ascii_utf(uintmax_t c)

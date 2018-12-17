@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <libft.h>
 #include "ft_printf.h"
 
 static size_t	ft_strnlen(char *str, size_t len)
@@ -58,7 +59,7 @@ static void		ft_prstr(size_t len, char *str)
 		len = (g_prec != -1 ? ft_strnlen(str, g_prec) : ft_strlen(str));
 		if (!g_width)
 		{
-			g_width = (g_prec != -1 ? g_prec : len);
+			g_width = (g_prec != -1 ? g_prec : (int)len);
 			if (g_prec > (int)len)
 				g_width = ft_strlen(str);
 		}
@@ -72,7 +73,7 @@ void			ft_str_null(char *str)
 
 	len = (g_prec > 0 ? ft_strnlen(str, g_prec) : ft_strlen(str));
 	if (!g_width)
-		g_width = (g_prec > 0 ? g_prec : len);
+		g_width = (g_prec > 0 ? g_prec : (int)len);
 	if (*str)
 		ft_pr_left_right(str, len);
 }
