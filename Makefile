@@ -3,73 +3,73 @@ ifeq ($(HOSTTYPE),)
 endif
 
 NAME = libft_malloc.so
-LIB = libft_malloc_$(HOSTTYPE).so
+LIB_MALLOC = libft_malloc_$(HOSTNAME).so
 
-PATH_SRC = src
-PATH_OBJ = obj
-PATH_INC = inc
-PRINTF_DIR = ../ft_printf/
-LIBFT_DIR = ../libft/
+FLAGS = -Wall -Wextra -Werror
+CC = gcc
+
+INC_DIR = inc
+SRC_DIR = src
+OBJ_DIR = obj
+LIB_DIR = lib
 
 SRC = $(addprefix $(PATH_SRC)/, malloc.c)
 OBJ = $(SRC:$(PATH_SRC)/%.c=$(PATH_OBJ)/%.o)
 INC = $(addprefix $(PATH_INC)/, alloc_in_heap.h)
 
-FLAGS = -Wall -Wextra -Werror
-CC = gcc
-
-PRINTF = $(PRINTF_DIR)libft.a
-PRINTF_INC = $(PRINTF_DIR)inc
-PRINTF_FLAGS = -ltf -L$(PRINTF_DIR)
-
-LIBFT = $(LIBFT_DIR)libft.a
-LIBFT_INC = $(LIBFT_DIR)inc
+LIBFT_DIR = $(LIB_DIR)/ft_printf
+LIBFT = $(LIBFT_DIR)/libftprintf.a
+LIBFT_INC = $(LIBFT_DIR)/inc
 LIBFT_FLAGS = -ltf -L$(LIBFT_DIR)
 
-LINK_FLAGS = $(LIBFT_FLAGS) $(PRINTF_FLAGS)
-HEADER_FLAGS = -I $(INC_DIR) -I $(LIBFT_INC) -I $(PRINTF_INC)
-
+LINK_FLAGS = $(LIBFT_FLAGS)
+HEADER_FLAGS = -I $(LIBFT_INC) -I $(INC_DIR)
 
 RED = \033[01;31m
 GREEN = \033[01;32m
 YELLOW = \033[01;33m
 BLUE = \033[01;34m
 PINK = \033[01;35m
-CYAN = \033[01;36m
-WHITE = \033[01;37m
-RESET = \033[00m]
+RESET = \033[00m
 
 all: $(NAME)
 
-$(NAME): $() $(LIB)
-	ln -s $^ $@
-	@echo "$(PINK)link:$(RESET)\t$@"
+$(NAME): $(LIBFT) $(LIB_MALLOC) 
+	@ln -s $^ $@
+	@echo "$(YELLOW)make:$(RESET)\t$@"
 
-$(LIB): $(OBJ)
-	$(CC) -shared $^ -o $@
-	@echo "$(GREEN)make:$(RESET)\t$@"
+$(LIB_MALLOC): $(OBJ)
+	$(CC) $(HEADER_FLAGS) -shared $^ -o $@ $(FLAGS) $(LINK_FLAGS) -libftprintf.a
+	@echo "$(YELLOW)make:$(RESET)\t$@"
 
-$(PATH_OBJ)/%.o: $(PATH_SRC)/%.c $(INC)
-	mkdir -p $(PATH_OBJ)
-	$(CC) $(FLAGS) -c $< -o $@ -I $(PATH_INC)
-	@echo "$(YELLOW)compil:$(RESET)\t$@"
+$(OBJ): | $(OBJ_DIR)
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+	@echo "$(BLUE)create:$(RESET)\t$(OBJ_DIR)"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC)
+	@$(CC) $(HEADER_FLAGS) -c $< -o $@ $(FLAGS) #$(LINK_FLAGS) -libftprintf.a
+	@echo "$(GREEN)compil:$(RESET)\t$@"
 
 
 
+$(LIBFT) :
+	@make -C $(LIBFT_DIR)
+	@cp $(LIBFT) ./$(NAME)
 
-clear:
+clean :
 	@rm -f $(OBJ)
-	@rm -rf $(PATH_OBJ)
-	@make clean -C $(PRINTF_DIR)
+	@make clean -C $(LIBFT_DIR)
 	@echo "$(RED)clean:$(RESET)\t$(OBJ)"
 
-fclean:
+fclean : clean
 	@rm -f $(NAME)
-	@rm -rf $(LIB)
-	@make fclean -C $(PRINTF_DIR)
-	@echo "$(RED)clean:$(RESET)\t$(NAME)"
-	@echo "$(RED)clean:$(RESET)\t$(LIB)"
+	@rm -f $(LIB_MALLOC)
+	@rm -rf $(OBJ_DIR)
+	@make fclean -C $(LIBFT_DIR)
+	@echo "$(RED)fclean:$(RESET)\t$(NAME)"
 
-re: fclean all
+re : fclean all
 
 .PHONY: clean fclean re

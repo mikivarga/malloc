@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include "../lib/ft_printf/inc/ft_printf.h"
 #include <sys/mman.h>
 
 typedef enum            e_zones_heap
