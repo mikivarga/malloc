@@ -3,9 +3,6 @@ NAME = libftprintf.a
 FLAGS = -Wall -Wextra -Werror
 CC = gcc
 
-#LIBFT_DIR = ../libft
-#LIBFT = $(LIBFT_DIR)/libft.a
-
 INC_DIR = inc
 SRC_DIR = src
 OBJ_DIR = obj
@@ -33,7 +30,7 @@ LIBFT_INC = $(LIBFT_DIR)inc
 LIBFT_FLAGS = -ltf -L$(LIBFT_DIR)
 
 LINK_FLAGS = $(LIBFT_FLAGS)
-HEADER_FLAGS = -I $(INC_DIR) -I $(LIBFT_INC) 
+HEADER_FLAGS = -I $(LIBFT_INC) -I $(INC_DIR)
 
 RED = \033[01;31m
 GREEN = \033[01;32m
@@ -42,9 +39,9 @@ BLUE = \033[01;34m
 PINK = \033[01;35m
 RESET = \033[00m
 
-all : $(NAME)
+all: $(NAME)
 
-$(NAME) : $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(OBJ)
 	@ar rc $@ $^
 	@ranlib $@
 	@echo "$(YELLOW)make:$(RESET)\t$@"

@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
 #include "ft_printf.h"
 
 static size_t		ft_wstrnlen(wchar_t *wstr, size_t len)
