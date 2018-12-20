@@ -3,7 +3,7 @@ ifeq ($(HOSTTYPE),)
 endif
 
 NAME = libft_malloc.so
-LIB_MALLOC = libft_malloc_$(HOSTNAME).so
+LIB_MALLOC = libft_malloc_$(HOSTTYPE).so
 
 FLAGS = -Wall -Wextra -Werror
 CC = gcc
@@ -13,9 +13,9 @@ SRC_DIR = src
 OBJ_DIR = obj
 LIB_DIR = lib
 
-SRC = $(addprefix $(PATH_SRC)/, malloc.c)
-OBJ = $(SRC:$(PATH_SRC)/%.c=$(PATH_OBJ)/%.o)
-INC = $(addprefix $(PATH_INC)/, alloc_in_heap.h)
+SRC = $(addprefix $(SRC_DIR)/, malloc.c)
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+INC = $(addprefix $(INC_DIR)/, alloc_in_heap.h)
 
 LIBFT_DIR = $(LIB_DIR)/ft_printf
 LIBFT = $(LIBFT_DIR)/libftprintf.a
@@ -32,14 +32,14 @@ BLUE = \033[01;34m
 PINK = \033[01;35m
 RESET = \033[00m
 
-all: $(NAME)
+all: $(LIBFT) $(NAME)
 
-$(NAME): $(LIBFT) $(LIB_MALLOC) 
+$(NAME): $(LIB_MALLOC) 
 	@ln -s $^ $@
 	@echo "$(YELLOW)make:$(RESET)\t$@"
 
 $(LIB_MALLOC): $(OBJ)
-	$(CC) $(HEADER_FLAGS) -shared $^ -o $@ $(FLAGS) $(LINK_FLAGS) -libftprintf.a
+	@$(CC) -shared $^ -o $@ $(LIBFT)
 	@echo "$(YELLOW)make:$(RESET)\t$@"
 
 $(OBJ): | $(OBJ_DIR)
@@ -49,14 +49,11 @@ $(OBJ_DIR):
 	@echo "$(BLUE)create:$(RESET)\t$(OBJ_DIR)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC)
-	@$(CC) $(HEADER_FLAGS) -c $< -o $@ $(FLAGS) #$(LINK_FLAGS) -libftprintf.a
+	@$(CC) -fPIC $(FLAGS) -c $< -o $@ $(HEADER_FLAGS)
 	@echo "$(GREEN)compil:$(RESET)\t$@"
-
-
 
 $(LIBFT) :
 	@make -C $(LIBFT_DIR)
-	@cp $(LIBFT) ./$(NAME)
 
 clean :
 	@rm -f $(OBJ)
@@ -73,3 +70,5 @@ fclean : clean
 re : fclean all
 
 .PHONY: clean fclean re
+
+#export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:.

@@ -1,10 +1,9 @@
 #ifndef ALLOC_IN_HEAP_H
 # define ALLOC_IN_HEAP_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include "../lib/ft_printf/inc/ft_printf.h"
-#include <sys/mman.h>
+# include <unistd.h>
+# include <sys/mman.h>
+# include "../lib/ft_printf/inc/ft_printf.h"
 
 typedef enum            e_zones_heap
 {
