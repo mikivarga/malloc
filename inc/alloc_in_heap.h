@@ -26,5 +26,6 @@ typedef struct          s_heap
 }                       t_heap;
 
 void    *malloc(size_t size);
+void    *ft_malloc(size_t size);
 
 #endif
