@@ -6,7 +6,7 @@
 /*   By: mvarga <mvarga@student.unit.ua>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 17:25:01 by mvarga            #+#    #+#             */
-/*   Updated: 2019/02/02 18:00:08 by mvarga           ###   ########.fr       */
+/*   Updated: 2019/02/02 17:25:54 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int				main(void)
 {
 	write(1,"My mallock\n", 11);
-	if (!ft_malloc(0))
+	if (!ft_malloc(10))
 	{ 
 		return 1;
 	}
