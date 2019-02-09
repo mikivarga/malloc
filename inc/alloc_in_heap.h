@@ -6,7 +6,7 @@
 /*   By: mvarga <mvarga@student.unit.ua>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 17:22:02 by mvarga            #+#    #+#             */
-/*   Updated: 2019/02/03 18:15:20 by mvarga           ###   ########.fr       */
+/*   Updated: 2019/02/09 16:53:21 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,5 @@ t_heap  g_heap[CNT_TYPE_ZONES];
 
 void					*malloc(size_t size);
 void					*ft_malloc(size_t size);
-t_lst_block				*ft_tiny_blk(size_t size);
+t_lst_block             *ft_find_ts_blk(size_t size, t_heap_zones zone_type, size_t zone_size);
 #endif
