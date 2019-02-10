@@ -77,6 +77,8 @@ void					*malloc(size_t size);
 	  else
 	  {
 	       call mmap to allocete blk(depends from type zone)
+		   add a big size of allock memmory
+		   (add a lot blocks of memmory)
 	  }
 malloc return add (ptr + header_free)
 */
@@ -84,5 +86,6 @@ void					*ft_malloc(size_t size);
 t_lst_block             *ft_find_ts_blk(size_t size, t_heap_zones zone_type, size_t zone_size);
 
 void					free(void *ptr);
+
 /*free check NULL ptr end put blk to free list*/
 #endif

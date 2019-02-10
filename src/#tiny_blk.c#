@@ -75,7 +75,7 @@ t_lst_block             *ft_find_ts_blk(size_t size, t_heap_zones zone_type, siz
 	ft_printf("\n");
 	
 	ft_printf("align size = ");
-	ft_putnbr(ft_align_size(8000, 256));///dont work good
+	ft_putnbr(ft_align_size(8000, 256));///dont work good need + 
 	ft_printf("\n");
 
 	free_blk = g_heap[zone_type].free;

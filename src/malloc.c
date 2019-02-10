@@ -6,7 +6,7 @@
 /*   By: mvarga <mvarga@student.unit.ua>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 17:26:22 by mvarga            #+#    #+#             */
-/*   Updated: 2019/02/09 16:56:22 by mvarga           ###   ########.fr       */
+/*   Updated: 2019/02/10 14:05:25 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,19 @@ static void	ft_select_pool(size_t size, t_lst_block **new_memory_blk)
 	else
 	{
 		zone_type = LARGE_BLK;
-		zone_size = 77777;//need to correct
+		zone_size = size;//need to correct
 	}
 	*new_memory_blk = ft_find_ts_blk(size, zone_type, zone_size);
-	if (new_memory_blk == NULL)
-		return (NULL);
+	if (*new_memory_blk == NULL)
+		return ;
 #if DEBUG
 	ft_printf(RED"ZONE_TYPE = ");
 	ft_putnbr(zone_type);
 	ft_printf("\n"RESET);
 #endif
 
-	if (!g_heap[zone_type].free)
 #if DEBUG
+	if (!g_heap[zone_type].free)
 		ft_printf(YELLOW"!g_heeap\n"RESET);
 #endif
 }
@@ -90,8 +90,8 @@ void		*malloc(size_t size)
 
 
 #if DEBUG
-	ft_printf(RED"size after aling = ");
-	ft_putnbr(size);
+	ft_printf(RED"size t_lst_block = ");
+	ft_putnbr(sizeof(t_lst_block));
 	ft_printf("\n"RESET);
 #endif
 

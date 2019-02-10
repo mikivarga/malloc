@@ -6,7 +6,7 @@
 /*   By: mvarga <mvarga@student.unit.ua>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/02 17:25:01 by mvarga            #+#    #+#             */
-/*   Updated: 2019/02/09 15:04:52 by mvarga           ###   ########.fr       */
+/*   Updated: 2019/02/10 13:29:51 by mvarga           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,21 @@ void	ft_putaddr(unsigned long long ptr)
 int				main(void)
 {
 	char *str1, *str2;
-	write(1,"My mallock1\n", 10);
+	ft_printf("My mallock1\n");
 	if (!(str1 = (char *)ft_malloc(100))){ 
 		return 1;
 		}
-	ft_printf("add = ");
+	ft_printf("Add = ");
 	ft_putaddr((unsigned long long)str1);
 	ft_printf("\n");
-	write(1,"My mallock2\n", 10);
-	if (!(str2 = (char *)ft_malloc(100)))
+	ft_printf("My mallock2\n");
+	if (!(str2 = (char *)ft_malloc(1000)))
 	{ 
 		return 1;
 	}
-	ft_printf("add = ");
+	ft_printf("Add = ");
 	ft_putaddr((unsigned long long)str2);
 	ft_printf("\n");
 	return (0);
 }
-//gcc src/main.c -I includes/malloc.h libft_malloc.so
+//gcc src/main.c -I inc/malloc.h libft_malloc.so
