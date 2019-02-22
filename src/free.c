@@ -35,6 +35,7 @@ void			free(void *ptr)
         {
             return ;
         }
+        ft_printf("tiny_zone\n");
     }
     else if (g_heap[SMALL_BLK].start < blk && g_heap[SMALL_BLK].end > blk)
     {
@@ -42,8 +43,9 @@ void			free(void *ptr)
         {
             return ;
         }
+        ft_printf("small_zone\n");
     }
-    else if (g_heap[LARGE_BLK].start < blk && g_heap[LARGE_BLK].end > blk)
+    else //if (g_heap[LARGE_BLK].start <= blk && g_heap[LARGE_BLK].end >= blk)
     {
         if (ft_search_heap(&(g_heap[LARGE_BLK]), blk))
         {
@@ -56,6 +58,7 @@ void			free(void *ptr)
             return ;
         }
     }
+    
     ft_putstr_fd("free(): invalid pointer\nAborted (core dumped)\n", 2);
     exit(1);
 }

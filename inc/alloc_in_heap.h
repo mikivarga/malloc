@@ -53,8 +53,8 @@ void    *ft_malloc(size_t size);
  * **/
 
 int lst_init_block(t_lst_block *lst, size_t size);
-int lst_put_post(t_lst_block *lst, size_t size);
-void lst_fragment(t_lst_block *lst, size_t size);
+int lst_put_post(t_lst_block *lst, size_t size, size_t zone_size);
+void lst_fragment(t_lst_block *lst, size_t size, size_t zone_size);
 int lst_move_ptr_left(t_lst_block *lst);
 int lst_move_ptr_right(t_lst_block *lst);
 int lst_is_empty(t_lst_block *plst);

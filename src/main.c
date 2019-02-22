@@ -121,7 +121,7 @@ int main()
 }
 */
 
-/*
+
 #define M (1024 * 1024)
 
 void print(char *s)
@@ -134,16 +134,16 @@ int main()
 	char *addr1;
 	char *addr3;
 
-	addr1 = (char*)malloc(16);
+	addr1 = (char*)malloc(16*M);
 	strcpy(addr1, "Bonjours\n");
 	print(addr1);
-	addr3 = (char*)realloc(addr1, 128);
-	addr3[127] = 42;
+	addr3 = (char*)realloc(addr1, 128*M);
+	addr3[127*M] = 42;
 	print(addr3);
 	return 0;
-}*/
+}
 
-#include <unistd.h>
+/*#include <unistd.h>
 
 int main()
 {
@@ -154,17 +154,13 @@ int main()
 	while (i < 1024)
 	{
 		addr = (char*)malloc(1024);
-		
-			/*ft_putstr("main - add2 = ");
-	ft_putad((unsigned long long)addr);
-	ft_putstr("\n\n\n");*/
 		addr[0] = i;
-		printf("main addr = %p = %d\n", (void *)addr, addr[0]);
+		ft_printf("main addr = %p = %d\n", (void *)addr, addr[0]);
 		free(addr);
 		i++;
 	}
 	return (0);
-}
+}*/
 
 
 //gcc src/main.c -I inc/malloc.h libft_malloc.so

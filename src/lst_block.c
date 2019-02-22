@@ -34,18 +34,10 @@ int lst_init_block(t_lst_block *lst, size_t size)
     lst->end->next = NULL;
     lst->end->prev = lst->start;
     lst->ptr = lst->start;
-    //ft_putstr("t_putaddr(lst->start); ");
-    //ft_putaddr((unsigned long long)lst->start);
-    //ft_putstr("\nt_putaddr(lst->end); ");
-    //ft_putaddr((unsigned long long)lst->end);
-    //ft_putchar('\n');
-    //ft_putchar('\n');
-    //ft_putchar('\n');
-    //ft_putchar('\n');
     return (TRUE);
 }
 
-void lst_fragment(t_lst_block *lst, size_t size)
+void lst_fragment(t_lst_block *lst, size_t size, size_t zone_size)
 {
     t_element_block *begin;
     t_element_block *end;
@@ -67,22 +59,22 @@ void lst_fragment(t_lst_block *lst, size_t size)
     end = lst->ptr;
     size_tmp = (void *)(lst->end ? (void *)begin->next + end->size : end->next) - (void *)begin->next;
     lst->ptr = begin;
-    lst->ptr->next = end->next; //end->prev = begin;
-    lst_put_post(lst, size);
+    lst->ptr->next = end->next;
+    lst_put_post(lst, size, zone_size);
     lst->ptr = lst->ptr->next;
     if ((int)(size_tmp - size - sizeof(t_element_block)) < 0)
         return;
-    lst_put_post(lst, size_tmp - size - sizeof(t_element_block));
+    lst_put_post(lst, size_tmp - size - sizeof(t_element_block), zone_size);
     lst->ptr->next->free = TRUE;
 }
 
-int lst_put_post(t_lst_block *lst, size_t size)
+int lst_put_post(t_lst_block *lst, size_t size, size_t zone_size)
 {
     t_element_block *tmp;
 
     if (lst->ptr == lst->end)
     {
-        return FALSE;
+        return (FALSE);
     }
     if (((void *)lst->end - ((void *)(lst->ptr + 1) + lst->ptr->size)) >= (int)size)
     {
@@ -90,13 +82,13 @@ int lst_put_post(t_lst_block *lst, size_t size)
     }
     else
     {
-        tmp = mmap(lst->end, getpagesize(), PROT_READ | PROT_WRITE | PROT_EXEC,
+        tmp = mmap(lst->end, zone_size, PROT_READ | PROT_WRITE | PROT_EXEC,
                    MAP_PRIVATE | MAP_ANON, -1, 0);
         if (tmp == MAP_FAILED)
         {
             return (FALSE);
         }
-        lst->end = (void *)tmp + getpagesize() - sizeof(t_lst_block);
+        lst->end = (void *)tmp + zone_size - sizeof(t_lst_block);
         lst->ptr->next = lst->end;
         lst->end->prev = lst->ptr;
         lst->end->next = NULL;

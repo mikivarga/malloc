@@ -24,22 +24,19 @@ void *ft_malloc(size_t size)
 	return (malloc(size));
 }
 
-static void ft_find_free_block(t_lst_block *blk, size_t size)
+static void ft_find_free_block(t_lst_block *blk, size_t size, size_t zone_size)
 {
     blk->ptr = blk->start;
     while (lst_move_ptr_right(blk))
     {
-        //ft_putchar('l');
-        //ft_putchar('\n');
         if (blk->ptr->free && blk->ptr->size >= size)
         {
-            ft_putstr("lst_fragment(blk, size);\n");
-            lst_fragment(blk, size);
+            lst_fragment(blk, size, zone_size);
             return ;
         }
     }
     blk->ptr = blk->end->prev;
-    lst_put_post(blk, size);
+    lst_put_post(blk, size, zone_size);
     blk->ptr = blk->end->prev;
 }
 
@@ -59,12 +56,12 @@ static void	ft_select_zone(size_t size, t_heap_zones *zone_type, size_t *zone_si
 	}
 	else
 	{
+        ft_printf("INIT_LARGE_ZONE\n");
 		*zone_type = LARGE_BLK;
-		*zone_size = getpagesize() * 3;
+		*zone_size = size;
     }
     if (init[*zone_type] == FALSE)
     {
-        //ft_putstr("INIT_ZONE\n");
         if (lst_init_block(&(g_heap[*zone_type]), *zone_size) == FALSE)
         {
             ft_putstr("can't init zone");
@@ -79,9 +76,8 @@ void *malloc(size_t size)
     t_heap_zones zone_type;
     size_t zone_size;
 
-    //ft_printf("\nCALL malloc\n");
     ft_select_zone(size, &zone_type, &zone_size);
     new_blk = &(g_heap[zone_type]);
-    ft_find_free_block(new_blk, size);
+    ft_find_free_block(new_blk, size, zone_size);
     return (new_blk->ptr + 1);    
 }
