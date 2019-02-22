@@ -154,6 +154,7 @@ int main()
 	malloc(3725);
 	malloc(48847);
 	show_alloc_mem();
+	show_alloc_mem_ex();
 	return (0);
 }
 
