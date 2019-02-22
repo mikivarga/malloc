@@ -1,27 +1,10 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   malloc.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mvarga <mvarga@student.unit.ua>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/02 17:26:22 by mvarga            #+#    #+#             */
-/*   Updated: 2019/02/10 14:05:25 by mvarga           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "alloc_in_heap.h"
 
-#define MULTIPLE 16
-
-#define DEBUG 1
-
-
-void	ft_addr(unsigned long long ptr)
+void	ft_putaddrr(unsigned long long ptr)
 {
 	const char	hex[16] = "0123456789abcdef";
-	char	s[16];
-	int	i;
+	char		s[16];
+	int			i;
 
 	i = 0;
 	if (ptr == 0)
@@ -36,65 +19,69 @@ void	ft_addr(unsigned long long ptr)
 		ft_putchar(s[i]);
 }
 
-void		*ft_malloc(size_t size)
+void *ft_malloc(size_t size)
 {
 	return (malloc(size));
 }
 
-
-static void	ft_select_pool(size_t size, t_lst_block **new_memory_blk)
+static void ft_find_free_block(t_lst_block *blk, size_t size)
 {
-	t_heap_zones	zone_type;
-	size_t			zone_size;
+    blk->ptr = blk->start;
+    while (lst_move_ptr_right(blk))
+    {
+        //ft_putchar('l');
+        //ft_putchar('\n');
+        if (blk->ptr->free && blk->ptr->size >= size)
+        {
+            ft_putstr("lst_fragment(blk, size);\n");
+            lst_fragment(blk, size);
+            return ;
+        }
+    }
+    blk->ptr = blk->end->prev;
+    lst_put_post(blk, size);
+    blk->ptr = blk->end->prev;
+}
 
-	if (size < SIZE_TINY_BLK)
+static void	ft_select_zone(size_t size, t_heap_zones *zone_type, size_t *zone_size)
+{
+    static int init[ZONES_TYPE] = {FALSE, FALSE, FALSE};
+
+    if (size < SIZE_TINY_BLK)
 	{
-		zone_type = TINY_BLK;
-		zone_size = SIZE_TINY_BLK;
+		*zone_type = TINY_BLK;
+		*zone_size = getpagesize();
 	}
 	else if (size < SIZE_SMALL_BLK)
 	{
-		zone_type = SMALL_BLK;
-		zone_size = SIZE_SMALL_BLK;
+		*zone_type = SMALL_BLK;
+		*zone_size = getpagesize();
 	}
 	else
 	{
-		zone_type = LARGE_BLK;
-		zone_size = size;//need to correct
-	}
-	*new_memory_blk = ft_find_ts_blk(size, zone_type, zone_size);
-	if (*new_memory_blk == NULL)
-		return ;
-#if DEBUG
-	ft_printf(RED"ZONE_TYPE = ");
-	ft_putnbr(zone_type);
-	ft_printf("\n"RESET);
-#endif
-
-#if DEBUG
-	if (!g_heap[zone_type].free)
-		ft_printf(YELLOW"!g_heeap\n"RESET);
-#endif
+		*zone_type = LARGE_BLK;
+		*zone_size = getpagesize() * 3;
+    }
+    if (init[*zone_type] == FALSE)
+    {
+        //ft_putstr("INIT_ZONE\n");
+        if (lst_init_block(&(g_heap[*zone_type]), *zone_size) == FALSE)
+        {
+            ft_putstr("can't init zone");
+        }
+        init[*zone_type] = TRUE;
+    }    
 }
 
-void		*malloc(size_t size)
+void *malloc(size_t size)
 {
-	t_lst_block		*new_block = NULL;
+    t_lst_block *new_blk;
+    t_heap_zones zone_type;
+    size_t zone_size;
 
-#if DEBUG
-	ft_printf(BLUE"Malloc\n"RESET);
-#endif
-	
-
-	size = (size ? ((((size) - 1) / MULTIPLE) * MULTIPLE) + MULTIPLE : MULTIPLE);
-
-
-#if DEBUG
-	ft_printf(RED"size t_lst_block = ");
-	ft_putnbr(sizeof(t_lst_block));
-	ft_printf("\n"RESET);
-#endif
-
-	ft_select_pool(size, &new_block);
-	return (new_block);
+    //ft_printf("\nCALL malloc\n");
+    ft_select_zone(size, &zone_type, &zone_size);
+    new_blk = &(g_heap[zone_type]);
+    ft_find_free_block(new_blk, size);
+    return (new_blk->ptr + 1);    
 }

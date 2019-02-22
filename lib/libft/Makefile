@@ -101,7 +101,7 @@ $(OBJ_DIR):
 	@echo "$(BLUE)create:$(RESET)\t$(OBJ_DIR)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC)
-	@$(CC) $(FLAGS)  -c $< -o $@ -I $(INC_DIR)
+	@$(CC) -fPIC $(FLAGS)  -c $< -o $@ -I $(INC_DIR)
 	@echo "$(GREEN)compil:$(RESET)\t$@"
 
 clean :

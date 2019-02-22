@@ -13,7 +13,7 @@ SRC_DIR = src
 OBJ_DIR = obj
 LIB_DIR = lib
 
-SRC = $(addprefix $(SRC_DIR)/, malloc.c tiny_blk.c)
+SRC = $(addprefix $(SRC_DIR)/, malloc.c realloc.c free.c lst_block.c)
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 INC = $(addprefix $(INC_DIR)/, alloc_in_heap.h)
 
@@ -39,7 +39,7 @@ $(NAME): $(LIB_MALLOC)
 	@echo "$(YELLOW)make:$(RESET)\t$@"
 
 $(LIB_MALLOC): $(OBJ)
-	@$(CC) -shared $^ -o $@ $(LIBFT)
+	$(CC) -shared -fPIC $^ -o $@ $(LIBFT)
 	@echo "$(YELLOW)make:$(RESET)\t$@"
 
 $(OBJ): | $(OBJ_DIR)
