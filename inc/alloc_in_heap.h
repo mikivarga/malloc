@@ -7,8 +7,8 @@
 # include "../lib/libft/inc/libft.h"
 
 # define NB_BLOCKS 100
-# define SIZE_TINY_BLK 257
-# define SIZE_SMALL_BLK 2025
+# define SIZE_TINY_BLK 1025
+# define SIZE_SMALL_BLK 4097
 # define ZONES_TYPE 3
 
 # define LIST_OK 0
@@ -44,6 +44,7 @@ t_lst_block g_heap[ZONES_TYPE];
 
 void    *malloc(size_t size);
 void		*realloc(void *ptr, size_t size);
+void    show_alloc_mem(void);
 void		free(void *ptr);
 void    *ft_malloc(size_t size);
 

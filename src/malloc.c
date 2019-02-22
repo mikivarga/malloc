@@ -56,7 +56,6 @@ static void	ft_select_zone(size_t size, t_heap_zones *zone_type, size_t *zone_si
 	}
 	else
 	{
-        ft_printf("INIT_LARGE_ZONE\n");
 		*zone_type = LARGE_BLK;
 		*zone_size = size;
     }

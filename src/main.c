@@ -121,7 +121,7 @@ int main()
 }
 */
 
-
+/*
 #define M (1024 * 1024)
 
 void print(char *s)
@@ -142,6 +142,24 @@ int main()
 	print(addr3);
 	return 0;
 }
+*/
+
+
+int main()
+{
+	malloc(42);
+	malloc(84);
+	malloc(102);
+	malloc(208);
+	malloc(3725);
+	malloc(48847);
+	show_alloc_mem();
+	return (0);
+}
+
+
+
+
 
 /*#include <unistd.h>
 
