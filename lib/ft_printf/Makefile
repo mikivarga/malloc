@@ -53,7 +53,7 @@ $(OBJ_DIR):
 	@echo "$(BLUE)create:$(RESET)\t$(OBJ_DIR)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(INC)
-	@$(CC) $(HEADER_FLAGS) -c $< -o $@ $(FLAGS) #$(LINK_FLAGS) -libft
+	@$(CC) $(HEADER_FLAGS) -c $< -o $@ $(FLAGS)
 	@echo "$(GREEN)compil:$(RESET)\t$@"
 
 $(LIBFT) :

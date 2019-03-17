@@ -53,6 +53,7 @@ void						*realloc(void *ptr, size_t size);
 void						free(void *ptr);
 
 void						show_alloc_mem(void);
+void						show_alloc_mem_ex(void);
 
 int							lst_init_block(t_lst_block *lst, size_t size);
 int							lst_put_post
